@@ -1,6 +1,6 @@
 angular
     .module('app')
-    .controller('ReviewController', ['$scope', function ($scope) {
+    .controller('ReviewController', function ($scope, $mdDialog) {
         var vm = this;
 
         vm.step2Ready = true;
@@ -8,11 +8,23 @@ angular
         vm.rating = -1;
 
         vm.submitStep1 = function () {
-            vm.step2Ready = true;
-        }
+            vm.selectedIndex = 1;
+        };
         vm.submitStep2 = function () {
-            vm.step3Ready = true;
-        }
+            vm.selectedIndex = 2;
+        };
+
+        vm.submitStep3 = function () {
+            $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#popupContainer')))
+                    .clickOutsideToClose(true)
+                    .title('Review Submitted')
+                    .textContent('You can specify some description text in here.')
+                    .ariaLabel('Review Submitted')
+                    .ok('Got it!')
+            );
+        };
 
         /* social networks checkboxes */
         vm.selectedNetworks = [];
@@ -34,20 +46,14 @@ angular
         }];
 
         $scope.$watch('vm.socialNetworks', function (firstTeamArray) {
-            console.log("change to the first team! ", JSON.stringify(firstTeamArray));
             vm.selectedNetworks = [];
             for (var i = 0; i < vm.socialNetworks.length; i++) {
                 if (vm.socialNetworks[i].status == true) {
-                    console.log('TROVATOOO');
                     vm.selectedNetworks.push(angular.copy(vm.socialNetworks[i]));
                 }
             }
 
-            console.log("selecto");
-            console.log(vm.selectedNetworks);
         }, true);
-
-
-    }]);
+    });
 
 

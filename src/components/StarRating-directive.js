@@ -6,7 +6,6 @@
         .directive('starRating', starRating);
 
     function starRating() {
-        console.log('******** star rating');
         return {
             restrict: 'EA',
             template: '<ul class="star-rating" ng-class="{readonly: readonly}">' +
